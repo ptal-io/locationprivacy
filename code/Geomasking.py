@@ -3,6 +3,8 @@
 
 # # Geomasking
 # 
+# *Author: Grant McKenzie [grant.mckenzie@mcgill.ca | https://grantmckenzie.com]*
+# 
 # This tutorial presents an introduction to geomasking, an obfuscation technique used for preserving the privacy of geographic data.  Through this tutorial we will explore two forms of geomasking, one using point geometries and the other using buffers.
 
 # ## Modules
@@ -30,7 +32,7 @@ import random
 # In[230]:
 
 
-trip_origins = pd.read_csv("/home/grantmckenzie/Dropbox/LISER_GeoPrivacy_Workshop/Brussels_Jump10.csv")
+trip_origins = pd.read_csv("../data/Brussels_Jump10.csv")
 
 
 # Take a look at the first few records in the dataset.

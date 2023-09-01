@@ -27,4 +27,4 @@ This tutorial presents an introduction to differential privacy, a mathematical f
 [JupyterNotebook](notebooks/DifferentialPrivacy.ipynb) | [Python Code](code/DifferentialPrivacy.py)
 
 *Author: Grant McKenzie [grant.mckenzie@mcgill.ca | [https://grantmckenzie.com](https://grantmckenzie.com)]*
-# locationprivacy
+

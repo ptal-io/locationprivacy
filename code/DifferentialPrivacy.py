@@ -3,6 +3,8 @@
 
 # # Differential Privacy
 # 
+# *Author: Grant McKenzie [grant.mckenzie@mcgill.ca | https://grantmckenzie.com]*
+# 
 # This tutorial presents an introduction to differential privacy, a mathematical framework for ensuring the privacy of individuals or records in datasets.  Through this tutorial we will explore differential privacy applied to our micromobility trip dataset.
 
 # ## Modules
@@ -30,7 +32,7 @@ import matplotlib.pyplot as plt
 # In[126]:
 
 
-trip_origins = pd.read_csv("/home/grantmckenzie/Dropbox/LISER_GeoPrivacy_Workshop/Brussels_Jump1000.csv")
+trip_origins = pd.read_csv("../data/Brussels_Jump1000.csv")
 
 # For simplicity, lets round all of our Distance to the nearest metre (integers are easier to deal with than floats)
 trip_origins.Distance = round(trip_origins.Distance).astype(int)
