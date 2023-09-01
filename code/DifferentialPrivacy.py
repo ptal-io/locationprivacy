@@ -11,10 +11,15 @@
 # 
 # First, we require a number of python modules in order to run this tutorial.  We will use `pandas` for handling all of our data, `matplotlib` for our plotting, and `PyDP` for all of our Differential Privacy functions.
 
-# In[125]:
+# In[ ]:
 
 
 #Import the Differential Privacy module
+# Make sure to install the modules if they don't already exist
+# This will take a long time to install.  DO NOT TRY THIS ON CODESPACE OR OTHER FREE CODING SERVICE
+import sys
+get_ipython().system('{sys.executable} -m pip install pydp')
+
 import pydp as dp 
 from pydp.algorithms.laplacian import BoundedStandardDeviation, BoundedMean, Count, Max
 
@@ -29,7 +34,7 @@ import matplotlib.pyplot as plt
 # 
 # Let's load some data.  Our dataset for this tutorial is a sample of 1000 points.  These points are the origins of e-scooter trips in the Brussels, Belgium.  We will read the CSV into a dataframe using `pandas`.
 
-# In[126]:
+# In[ ]:
 
 
 trip_origins = pd.read_csv("../data/Brussels_Jump1000.csv")
@@ -43,7 +48,7 @@ trip_origins.head()
 
 # Let's take a look at the trip distances using a histogram.  Note the outliers.  These will be important later.
 
-# In[127]:
+# In[ ]:
 
 
 # Number of bins for the histogram
@@ -68,7 +73,7 @@ plt.show()
 # 
 # Differential Privacy is designed to add noise to your dataset such that you would not be able to identify a difference between two datasets, one with the full data, and one with a single record removed.  To start, let's see what differential privacy does when calculating the mean trip distance from our dataset.
 
-# In[128]:
+# In[ ]:
 
 
 # Basic function to calculate the real mean of our trip distances
@@ -78,7 +83,7 @@ def true_mean() -> float:
 
 # This next function is designed to calculate the differentially private mean of our trip distances.  Note that this takes in a 'privacy budget' parameter.  This is a value between 0 and 1 with 0 indicating that the method should not give up any private information.  In practice, you need to provide a value larger than 0 for this to be useful.  The other parameters are here and worth exploring: https://pydp.readthedocs.io/en/latest/pydp.html
 
-# In[129]:
+# In[ ]:
 
 
 def private_mean(privacy_budget: float) -> float:
@@ -88,7 +93,7 @@ def private_mean(privacy_budget: float) -> float:
 
 # See the values of 1 and 10000 in the code above? These are the lower and upper bounds the differential privacy module uses when calculating the mean.  These really should be the minimum trip distance and maximum trip distance, respectively.  Changing these will have an impact on the output of your analysis though.  What might that impact be?
 
-# In[130]:
+# In[ ]:
 
 
 max(trip_origins.Distance)
@@ -96,7 +101,7 @@ max(trip_origins.Distance)
 
 # Go up to the `private_mean()` function and change the value of 10000 to the real max of the dataset.
 
-# In[131]:
+# In[ ]:
 
 
 print("Real Mean: ", true_mean())
@@ -107,7 +112,7 @@ print("Private Mean: ", private_mean(1))
 
 # Let's introduce a threshold.  How many trips in the dataset where greater than 5000 metres in length?
 
-# In[132]:
+# In[ ]:
 
 
 def true_count_above(limit: int) -> int:
@@ -120,7 +125,7 @@ def private_count_above(privacy_budget: float, limit: int) -> int:
 
 # Run the code below, note the results, then change the privacy budget to a value less than 1, and run it again.
 
-# In[133]:
+# In[ ]:
 
 
 print("Above 5000:\t" + str(true_count_above(5000)))
@@ -129,7 +134,7 @@ print("DP Count Above 5000:\t" + str(private_count_above(1, 5000)))
 
 # Next, we can do the same analysis but for the 'standard deviation' of trip distances in the dataset
 
-# In[134]:
+# In[ ]:
 
 
 def true_sd() -> float:
@@ -142,7 +147,7 @@ def private_sd(privacy_budget: float) -> float:
 
 # Run the code below, note the results, then change the privacy budget to a value less than 1, and run it again.
 
-# In[139]:
+# In[ ]:
 
 
 print("True Standard Deviation:\t" + str(true_sd()))
@@ -151,7 +156,7 @@ print("Private Standard Deviation:\t" + str(private_sd(1)))
 
 # Finally, we can do the same analysis but for the `max` trip distances in the dataset.  This is where it gets a bit more interesting.  Descriptive statistics like mean and count consider the entire dataset but when we deal with stats like max or min, we are pulling out a very specific part of our dataset.  If you have outliers in your data this can make it very difficult for a differential privacy approach to produce reasonable results.  Why is that?
 
-# In[109]:
+# In[ ]:
 
 
 def true_max() -> int:
@@ -164,7 +169,7 @@ def private_max(privacy_budget: float) -> int:
 
 # Run the code below, note the results, then change the privacy budget to a value less than 1, and run it again.
 
-# In[111]:
+# In[ ]:
 
 
 print("True max:\t" + str(nondp_max()))
@@ -174,7 +179,7 @@ print("Private max:\t" + str(private_max(1)))
 # ## Visualize
 # Lastly, I find it useful to visualize some of these data to see the differences between the original and the differentially private dataset.
 
-# In[146]:
+# In[ ]:
 
 
 # Numbers of pairs of bars you want

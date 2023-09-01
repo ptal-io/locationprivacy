@@ -11,10 +11,16 @@
 # 
 # First, we require a number of python modules in order to run this tutorial.  We will use `GeoPandas` for handling all of our geospatial objects, `Shapely` for our geometries, and `Folium` for interactive geovisualization.
 
-# In[226]:
+# In[ ]:
 
 
 # These will do the heavy lifting
+# Make sure to install the modules if they don't already exist
+import sys
+get_ipython().system('{sys.executable} -m pip install geopandas')
+get_ipython().system('{sys.executable} -m pip install shapely')
+get_ipython().system('{sys.executable} -m pip install folium')
+
 import geopandas as gpd
 from shapely import Point
 import folium
@@ -29,7 +35,7 @@ import random
 # ## Data
 # Let's load some data.  Our dataset for this tutorial is a sample of 10 points.  These points are the origins of e-scooter trips in the Brussels, Belgium.  We will read the CSV into a dataframe using `pandas`.
 
-# In[230]:
+# In[ ]:
 
 
 trip_origins = pd.read_csv("../data/Brussels_Jump10.csv")
@@ -37,7 +43,7 @@ trip_origins = pd.read_csv("../data/Brussels_Jump10.csv")
 
 # Take a look at the first few records in the dataset.
 
-# In[231]:
+# In[ ]:
 
 
 trip_origins.head()
@@ -45,7 +51,7 @@ trip_origins.head()
 
 # The current data is not 'spatial,' so lets convert to a GeoDataFrame by converting our latitude and longitude columns to a geometry using `GeoPandas`.
 
-# In[238]:
+# In[ ]:
 
 
 geometry = gpd.points_from_xy(trip_origins.Longitude, trip_origins.Latitude)
@@ -58,7 +64,7 @@ trip_origins_geo.head()    # Look at the first few rows.
 # ## Visualization
 # Next we will use `folium` to view our data on a map.  We start by loading a blank map.
 
-# In[236]:
+# In[ ]:
 
 
 # set up the basemap with a Latitude, Longitude, Zoom, and Tile type.
@@ -70,7 +76,7 @@ map
 
 # Then we add our points by creating a list of points from our dataset.  We add them as marker in `folium` and include the attribute information in the marker popups.
 
-# In[258]:
+# In[ ]:
 
 
 trip_geom_list = [[point.xy[1][0], point.xy[0][0]] for point in trip_origins_geo.geometry]
@@ -105,7 +111,7 @@ map
 # ## Basic Buffer
 # One very basic approach to geomasking a point geometry is to simply create a buffer around the point and return the buffer geometry to the user instead of the exact location.
 
-# In[259]:
+# In[ ]:
 
 
 # Specify our Buffer radius in meters
@@ -148,7 +154,7 @@ map
 # 
 # We will start by writing a function that generates a random point given an existing point and a maximum radius.
 
-# In[264]:
+# In[ ]:
 
 
 # This function expects a Shapely Point geometry and Buffer radius as input.
@@ -170,7 +176,7 @@ def randPoint(pt, buff):
 
 # Next, we will loop through our known trip origins and generate a new point using our function.
 
-# In[265]:
+# In[ ]:
 
 
 # copy our original points to a new GeoDataFrame and reproject to Spherical Mercator (units: meters)
@@ -216,7 +222,7 @@ map
 # 
 # We will start with a blank map again.
 
-# In[266]:
+# In[ ]:
 
 
 map = folium.Map(location=[50.84, 4.39],
@@ -228,7 +234,7 @@ map
 
 # Then we will add our original trip origin point geometries.
 
-# In[267]:
+# In[ ]:
 
 
 for i, row in trip_origins_geo.iterrows():
@@ -239,9 +245,9 @@ for i, row in trip_origins_geo.iterrows():
 map
 
 
-# Next we generate random points around the known points, and buffer those to generate circle polygons around the randomized centers.
+# Next we generate random points around the known points, and buffer those to generate circle polygons around the randomized centers.  If you get an error after running those code, it is likely that you need to add a third `minbuff` parameter when calling your function.
 
-# In[269]:
+# In[ ]:
 
 
 # Make a copy of our original data and reproject to Spherical Mercator (units: meters)
@@ -279,9 +285,3 @@ map
 # The map shown above (after running the code in the cell) shows the original point geometries as blue markers and the random circle regions.  Note that the circle regions always contain the original markers which is important for maintaining a useful dataset.  
 
 # ## The End
-
-# In[ ]:
-
-
-
-

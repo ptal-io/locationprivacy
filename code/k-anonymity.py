@@ -16,6 +16,11 @@
 
 
 # These will do the heavy lifting
+# Make sure to install the modules if they don't already exist
+import sys
+get_ipython().system('{sys.executable} -m pip install geopandas')
+get_ipython().system('{sys.executable} -m pip install shapely')
+get_ipython().system('{sys.executable} -m pip install folium')
 import geopandas as gpd
 import shapely as shp
 import folium
@@ -56,7 +61,7 @@ trip_origins.groupby(['Age','Gender']).size().reset_index(name='Count')
 
 
 # Create a new column called Age_Group and bin all ages into four groups.
-trip_origins['Age_Group'] = pd.cut(df['Age'], bins=4)
+trip_origins['Age_Group'] = pd.cut(trip_origins['Age'], bins=4)
 
 
 # Let's see what that does for the *k*-anonymity property of the data.
@@ -78,7 +83,7 @@ k = 5
 to_count = trip_origins.groupby(['Age_Group','Gender']).size().reset_index(name='Count')
 
 # Does that data set meet our requirment for k?
-to_count[df_count['Count'] < k]
+to_count[to_count['Count'] < k]
 
 
 # Since no results are returned, we can say that our data set is *5*-anonymized.
