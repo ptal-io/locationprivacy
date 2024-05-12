@@ -2,7 +2,7 @@
 
 The notebooks provided in this repository give a brief introduction to methods for location data privacy preservation.  These notebooks are intended for an audience that is familiar with python, has some familiarity with geospatial data, and little to no experience with privacy algorithms.
 
-
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ptal-io/locationprivacy/HEAD)
 
 ## Tutorials
 
